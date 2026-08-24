@@ -1,12 +1,16 @@
 import asyncio
 import random
 import re
+from typing import Optional, Dict, List, Tuple
+from astrbot.api import AstrBotConfig
+from astrbot.api.event import filter, AstrMessageEvent
+from astrbot.api.star import Context, Star, register
 
 from astrbot.api.event import filter, AstrMessageEvent, MessageEventResult
 from astrbot.api.star import Context, Star, register
 from astrbot.api import logger
 
-@register("helloworld", "YourName", "xxf", "1.0.0")
+@register("helloworld", "HSsevenfour", "xxf", "1.0.0")
 class MyPlugin(Star):
     def __init__(self, context: Context):
         super().__init__(context)
@@ -14,11 +18,18 @@ class MyPlugin(Star):
     async def initialize(self):
         """可选择实现异步的插件初始化方法，当实例化该插件类之后会自动调用该方法。"""
 
-    # 注册指令的装饰器。指令名为 helloworld。注册成功后，发送 `/helloworld` 就会触发这个指令，并回复 `你好, {user_name}!`
-    @filter.command("一键出来")
+    @filter.event_message_type(filter.EventMessageType.ALL, priority=999)
     async def chulai(self, event: AstrMessageEvent):
-        """一键出来"""
-        return event.plain_result(f"出来了")
+        msg = event.message_str.strip()
+        if msg == "一键出来" or msg == "出来":
+            yield event.plain_result("出来了")
+            event.stop_event()
+        elif msg == "小鸡吧":
+            yield event.image_result("C:/Users/18019/Desktop/SRWJ/hi.gif")
+            event.stop_event()
+        elif msg == "吃鸡巴":
+            yield event.image_result("C:/Users/18019/Desktop/SRWJ/84558fffe4ec7b0a5587d29eb75a71e2.jpg")
+            event.stop_event()
     
     @filter.command("哈哈哈")
     async def hahaha(self, event: AstrMessageEvent):
@@ -49,13 +60,6 @@ class MyPlugin(Star):
         for idx in range(send_times):
             yield event.plain_result(f"出来了")
             await asyncio.sleep(0.4)
-
-
-        
-    @filter.command("一键小鸡吧")
-    async def xiaojiba(self, event: AstrMessageEvent):
-        """一键小鸡吧"""
-        yield event.image_result("C:/Users/18019/Desktop/SRWJ/hi.gif")
 
     @filter.command("随机兑换码")
     async def redemptioncode(self, event: AstrMessageEvent):
