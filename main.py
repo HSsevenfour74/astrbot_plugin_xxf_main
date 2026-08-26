@@ -5,7 +5,6 @@ from typing import Optional, Dict, List, Tuple
 from astrbot.api import AstrBotConfig
 from astrbot.api.event import filter, AstrMessageEvent
 from astrbot.api.star import Context, Star, register
-
 from astrbot.api.event import filter, AstrMessageEvent, MessageEventResult
 from astrbot.api.star import Context, Star, register
 from astrbot.api import logger
@@ -33,7 +32,6 @@ class MyPlugin(Star):
     
     @filter.command("哈哈哈")
     async def hahaha(self, event: AstrMessageEvent):
-        """哈哈哈"""
         return event.plain_result(f"CXY钢辰说哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈")
 
     @filter.regex(r"^出来(\d+)次$")
@@ -63,10 +61,9 @@ class MyPlugin(Star):
 
     @filter.command("随机兑换码")
     async def redemptioncode(self, event: AstrMessageEvent):
-        codes = ["IHaveSixSkin","入输来过倒要不万千","JYhWUlbC5d","BackwardsWordEnterNotDo","bem7VEcNAf"]
+        codes = ["IHaveSixSkin","入输来过倒要不万千","JYhWUlbC5d","BackwardsWordEnterNotDo","bem7VEcNAf","LxMPTy4j18"]
         i = random.randrange(0, len(codes))
         return event.plain_result(codes[i])
-
 
     async def terminate(self):
         """可选择实现异步的插件销毁方法，当插件被卸载/停用时会调用。"""
